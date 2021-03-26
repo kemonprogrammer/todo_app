@@ -12,7 +12,7 @@ class ToDo extends StatelessWidget {
       ),
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-        itemCount: 25,
+        itemCount: 27,
         itemBuilder: (context, i) {
           return Container(
             child: Center(
@@ -20,11 +20,17 @@ class ToDo extends StatelessWidget {
                 i.toString(),
                 style: TextStyle(
                   fontFamily: "sans-serif",
+                  color: Colors.white,
                 ),
               ),
             ),
             height: 50,
-            color: Color.fromRGBO(150 + 10 * i, 50 + 5 * i, 22 * i, 1),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Color.fromRGBO(270-10*i, 10, 10*i, 100),
+                width: 2,
+              )
+            ),
           );
         },
       ),
