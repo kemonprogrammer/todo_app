@@ -1,65 +1,33 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(home: Counter()));
+void main() => runApp(MaterialApp(home: ToDo()));
 
-// class ToDo extends StatelessWidget {
-//   @override
-//   final List<String> products = ['Tomate', 'Käse', 'Lauch', 'Paprika', 'Wein'];
-//   Widget build(BuildContext context) {
-//     void inform(){
-//       showDialog<AlertDialog>(
-//         context: context,
-//         builder: (BuildContext context){
-//           return AlertDialog(
-//             title: Text('Thanks!'),
-//           );
-//         },
-//       );
-//     }
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('To-Do-App'),
-//         backgroundColor: Color.fromRGBO(35, 0, 0, 100),
-//       ),
-//       body:
-//       // ListView.builder(
-//       //   itemCount: products.length,
-//       //   itemBuilder: (context, i) {
-//       //     return ToDoItem(products[i]);
-//       //   },
-//       // ),
-//       Text('Press the Button!'),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: inform,
-//
-//         child: Icon(Icons.arrow_downward),
-//       )
-//     );
-//   }
-// }
-
-// class ToDoItem extends StatelessWidget {
-//   final String title;
-//   const ToDoItem(this.title);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       //color: Colors.blueGrey[200],
-//       padding: EdgeInsets.symmetric(vertical: 8),
-//       child: ListTile(
-//         leading: Checkbox(
-//           value: false,
-//         ),
-//         title: Text(
-//           title,
-//           style: TextStyle(
-//               fontSize: 18.0,
-//               fontWeight: FontWeight.w600,
-//               color: Colors.black54),
-//         ),
-//         trailing: Icon(Icons.delete_sharp),
-//       ),
-//     );
-//   }
-// }
+class ToDo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('To-Do-App'),
+        backgroundColor: Color.fromRGBO(35, 0, 0, 100),
+      ),
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        itemCount: 25,
+        itemBuilder: (context, i) {
+          return Container(
+            child: Center(
+              child: Text(
+                i.toString(),
+                style: TextStyle(
+                  fontFamily: "sans-serif",
+                ),
+              ),
+            ),
+            height: 50,
+            color: Color.fromRGBO(150 + 10 * i, 50 + 5 * i, 22 * i, 1),
+          );
+        },
+      ),
+    );
+  }
+}
