@@ -5,16 +5,16 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(home: Counter()));
+void main() => runApp(MaterialApp(home: ToDo()));
 
 class ToDo extends StatelessWidget {
-  @override
   final List<String> products = ['Tomate', 'Käse', 'Lauch', 'Paprika', 'Wein'];
+  @override
   Widget build(BuildContext context) {
-    void inform(){
+    void inform() {
       showDialog<AlertDialog>(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Thanks!'),
           );
@@ -23,24 +23,22 @@ class ToDo extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('To-Do-App'),
-        backgroundColor: Color.fromRGBO(35, 0, 0, 100),
-      ),
-      body:
-      // ListView.builder(
-      //   itemCount: products.length,
-      //   itemBuilder: (context, i) {
-      //     return ToDoItem(products[i]);
-      //   },
-      // ),
-      Text('Press the Button!'),
-      floatingActionButton: FloatingActionButton(
-        onPressed: inform,
-
-        child: Icon(Icons.arrow_downward),
-      )
-    );
+        appBar: AppBar(
+          title: Text('To-Do-App'),
+          backgroundColor: Color.fromRGBO(35, 0, 0, 100),
+        ),
+        body:
+            // ListView.builder(
+            //   itemCount: products.length,
+            //   itemBuilder: (context, i) {
+            //     return ToDoItem(products[i]);
+            //   },
+            // ),
+            Text('Press the Button!'),
+        floatingActionButton: FloatingActionButton(
+          onPressed: inform,
+          child: Icon(Icons.arrow_downward),
+        ));
   }
 }
 
@@ -53,9 +51,7 @@ class ToDoItem extends StatelessWidget {
       //color: Colors.blueGrey[200],
       padding: EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        leading: Checkbox(
-          value: false,
-        ),
+        leading: Icon(Icons.add),
         title: Text(
           title,
           style: TextStyle(
