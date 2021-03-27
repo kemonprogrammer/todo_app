@@ -9,26 +9,43 @@ class ToDo extends StatefulWidget {
 }
 
 class _ToDoState extends State<ToDo> {
-  List<String> products = ['Tomate', 'Käse', 'Lauch', 'Paprika', 'Wein'];
+  Map<String, bool> products = {
+    'Tomate': false,
+    'Käse': false,
+    'Lauch': false,
+    'Paprika': false,
+    'Wein': false,
+    'Brot': false,
+  };
 
   void addItem(String item) {
     setState(() {
-      products.add(item);
+      products[item] = false;
     });
     Navigator.of(context).pop();
   }
 
-  void newEntry(){
+  void deleteItem(String key) {
+    setState(() {
+      products.remove(key);
+    });
+  }
+
+  void toggleDone(String key) {
+    setState(() {
+      products.update(key, (bool done) => !done);
+    });
+  }
+
+  void newEntry() {
     showDialog<AlertDialog>(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          content: TextField(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              content: TextField(
             onSubmitted: addItem,
-          )
-        );
-      }
-    );
+          ));
+        });
   }
 
   @override
@@ -41,21 +58,30 @@ class _ToDoState extends State<ToDo> {
         body: ListView.builder(
           itemCount: products.length,
           itemBuilder: (context, i) {
-            return ToDoItem(products[i]);
+            String key = products.keys.elementAt(i);
+            return ToDoItem(
+              key,
+              products[key],
+              () => deleteItem(key),
+              () => toggleDone(key),
+            );
           },
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: newEntry,
           child: Icon(Icons.add),
-        )
-    );
+          backgroundColor: Color.fromRGBO(35, 153, 185, 100),
+        ));
   }
 }
 
 class ToDoItem extends StatelessWidget {
   final String title;
+  final bool done;
+  final Function remove;
+  final Function toggleDone;
 
-  const ToDoItem(this.title);
+  const ToDoItem(this.title, this.done, this.remove, this.toggleDone);
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +91,23 @@ class ToDoItem extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 8),
         leading: Checkbox(
-          value: false,
+          value: done,
+          onChanged: (bool value) => toggleDone(),
+          activeColor: Color.fromRGBO(23, 152, 185, 100),
         ),
         title: Text(
           title,
           style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
-              color: Colors.black54),
+            fontSize: 18.0,
+            fontWeight: FontWeight.w600,
+            color: done ? Color.fromRGBO(23, 152, 185, 100) : Colors.black54,
+            decoration: done ? TextDecoration.lineThrough : TextDecoration.none,
+          ),
         ),
-        trailing: Icon(Icons.delete_outline),
+        trailing: IconButton(
+          icon: Icon(Icons.delete_outline),
+          onPressed: () => remove(),
+        ),
       ),
     );
   }
