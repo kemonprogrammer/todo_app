@@ -5,31 +5,39 @@ void main() => runApp(MaterialApp(home: ToDo()));
 class ToDo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void surprise() {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(title: Text("Suprise!"));
+          });
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('To-Do-App'),
+        title: Text("Test-App"),
         backgroundColor: Color.fromRGBO(35, 0, 0, 100),
       ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-        itemCount: 27,
+      body: ListView.builder(
+        itemCount: 10,
         itemBuilder: (context, i) {
           return Container(
-            child: Center(
-              child: Text(
-                i.toString(),
-                style: TextStyle(
-                  fontFamily: "sans-serif",
-                  color: Colors.white,
-                ),
-              ),
+            width: 10,
+            child: IconButton(
+                onPressed: surprise,
+                icon: Icon(Icons.star),
+                color: Colors.yellow,
             ),
-            height: 50,
             decoration: BoxDecoration(
-              border: Border.all(
-                color: Color.fromRGBO(270-10*i, 10, 10*i, 100),
-                width: 2,
-              )
+              shape: BoxShape.rectangle,
+              color: Color.fromRGBO(0, 240, 255, 100),
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: 5.0, horizontal: 10.0,
+            ),
+            alignment: Alignment.centerLeft,
+            constraints: BoxConstraints.tightForFinite(
+              width: 20,
             ),
           );
         },
