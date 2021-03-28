@@ -8,7 +8,7 @@ class ToDo extends StatefulWidget {
 }
 
 class _ToDoState extends State<ToDo> {
-  int scoredTodos = 0;
+  int checkedTodos = 0;
 
   Map<String, bool> products = {
     'Tomate': false,
@@ -34,7 +34,7 @@ class _ToDoState extends State<ToDo> {
   void toggleDone(String key) {
     setState(() {
       products.update(key, (bool done) => !done);
-      products[key] ? scoredTodos++ : scoredTodos--;
+      products[key] ? checkedTodos++ : checkedTodos--;
     });
   }
 
@@ -64,7 +64,7 @@ class _ToDoState extends State<ToDo> {
                   bottom: 0,
                   right: 25.0,
                 ),
-                child: Text(scoredTodos.toString()),
+                child: Text(checkedTodos.toString()),
               ),
             ],
           ),
