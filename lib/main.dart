@@ -43,10 +43,7 @@ class _ToDoState extends State<ToDo> {
     showDialog<AlertDialog>(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-              content: TextField(
-            onSubmitted: addItem,
-          ));
+          return AddItemDialog(addItem);
         });
   }
 
@@ -125,6 +122,98 @@ class ToDoItem extends StatelessWidget {
           onPressed: () => remove(),
         ),
       ),
+    );
+  }
+}
+
+class AddItemDialog extends StatefulWidget {
+  final void Function(String txt) addItem;
+
+  const AddItemDialog(this.addItem);
+
+  @override
+  _AddItemDialogState createState() => _AddItemDialogState();
+}
+
+class _AddItemDialogState extends State<AddItemDialog> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+  String item;
+
+  void save() {
+    if (formKey.currentState.validate()) {
+      widget.addItem(item);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        content: Form(
+            key: formKey,
+            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              TextFormField(
+                  onChanged: (String txt) => item = txt,
+                  onFieldSubmitted: (String txt) => save(),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return "Please enter a value";
+                    }
+                    return null;
+                  }),
+              RaisedButton(
+                onPressed: save,
+                color: Color.fromRGBO(23, 152, 185, 100),
+                child: Text(
+                  "Save",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ])));
+  }
+}
+
+class DetailScreen extends StatelessWidget {
+  const DetailScreen(this.title, this.done);
+
+  final String title;
+  final bool done;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: done ? Colors.green : Colors.red,
+      appBar: AppBar(
+        title: Text("Detail Screen"),
+        backgroundColor: Colors.transparent,
+      ),
+      body: Padding(
+          padding: EdgeInsets.symmetric(vertical: 70),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                  child: Container(
+                      child: Text(
+                done
+                    ? "Das hast du schon erledigt:"
+                    : "Das musst du noch machen:",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+                textAlign: TextAlign.center,
+              ))),
+              Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Text(title,
+                          style:
+                              TextStyle(fontSize: 50, color: Colors.white)))),
+              Expanded(
+                  child: IconButton(
+                iconSize: 60,
+                onPressed: () => Navigator.pop(context),
+                icon:
+                    Icon(done ? Icons.check : Icons.close, color: Colors.white),
+              )),
+            ],
+          )),
     );
   }
 }
