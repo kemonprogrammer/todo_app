@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(home: ToDo()));
 
-////////////////////////////////
 class ToDo extends StatefulWidget {
   @override
   _ToDoState createState() => _ToDoState();
 }
 
 class _ToDoState extends State<ToDo> {
+  int checkedTodos = 0;
+
   Map<String, bool> products = {
     'Tomate': false,
     'Käse': false,
@@ -34,6 +35,7 @@ class _ToDoState extends State<ToDo> {
   void toggleDone(String key) {
     setState(() {
       products.update(key, (bool done) => !done);
+      products[key] ? checkedTodos++ : checkedTodos--;
     });
   }
 
@@ -52,7 +54,21 @@ class _ToDoState extends State<ToDo> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('To-Do-App'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('To-Do-App'),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  right: 25.0,
+                ),
+                child: Text(checkedTodos.toString()),
+              ),
+            ],
+          ),
           backgroundColor: Color.fromRGBO(35, 0, 0, 100),
         ),
         body: ListView.builder(
